@@ -1,0 +1,44 @@
+{
+  "name": "scrollparent-polyfill",
+  "version": "1.0.0",
+  "description": "A JavaScript polyfill for Element.scrollParent()",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "start": "serve",
+    "pretest": "npm run build && playwright install --with-deps",
+    "test": "playwright test --config playwright.config.ts",
+    "test:serve": "serve -l tcp://127.0.0.1:7357",
+    "prepare": "husky",
+    "prepack": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bramus/scrollparent-polyfill.git"
+  },
+  "keywords": [
+    "getScrollParent",
+    "getScrollparent",
+    "polyfill",
+    "scroll-parent",
+    "containing-block"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0",
+    "husky": "^9.1.7",
+    "serve": "^14.2.6",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "get-containing-block": "^1.0.3"
+  }
+}

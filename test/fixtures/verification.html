@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="importmap">
+    {
+      "imports": {
+        "get-containing-block": "/node_modules/get-containing-block/dist/index.js"
+      }
+    }
+    </script>
+    <title>getscrollparent-polyfill Verification</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .scroll-container {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #333;
+            margin-bottom: 20px;
+        }
+        .scroll { overflow: scroll; }
+        .auto { overflow: auto; }
+        .hidden { overflow: hidden; }
+        .visible { overflow: visible; }
+        
+        .absolute-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            border: 2px dashed #666;
+            overflow: auto;
+        }
+        .absolute-target {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .fixed-container {
+            transform: scale(1); /* forms containing block for fixed */
+            width: 300px;
+            height: 300px;
+            border: 2px dotted blue;
+            overflow: scroll;
+        }
+        .fixed-target {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>getscrollparent-polyfill Verification</h1>
+
+    <!-- 1. Overflow scroll container -->
+    <div id="container-scroll" class="scroll-container scroll">
+        <div id="target-scroll">Scroll target</div>
+    </div>
+
+    <!-- 2. Overflow auto container -->
+    <div id="container-auto" class="scroll-container auto">
+        <div id="target-auto">Auto target</div>
+    </div>
+
+    <!-- 3. Overflow hidden container -->
+    <div id="container-hidden" class="scroll-container hidden">
+        <div id="target-hidden">Hidden target</div>
+    </div>
+
+    <!-- 4. Nested elements with normal overflow: visible (should skip to viewport/scrollingElement) -->
+    <div id="container-visible" class="scroll-container visible">
+        <div>
+            <div>
+                <div id="target-visible">Visible target</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Absolute inside static container inside relative scroll container -->
+    <div id="container-absolute-scroll" class="absolute-container">
+        <div style="position: static;">
+            <div id="target-absolute" class="absolute-target">Absolute target</div>
+        </div>
+    </div>
+
+    <!-- 6. Fixed inside transformed scroll container -->
+    <div id="container-fixed-scroll" class="fixed-container">
+        <div id="target-fixed" class="fixed-target">Fixed target</div>
+    </div>
+
+    <!-- 7. Fixed outside transformed container (should fallback to scrollingElement) -->
+    <div id="outer-fixed-container" style="overflow: scroll;">
+        <div id="target-fixed-fallback" style="position: fixed;">Fixed fallback target</div>
+    </div>
+
+</body>
+</html>
