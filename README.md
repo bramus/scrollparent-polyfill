@@ -111,11 +111,17 @@ npm run build
 
 ### Testing
 
-The project has two types of tests:
+To run all tests (unit and Web Platform Tests):
+
+```bash
+npm run test
+```
+
+Or you can run them individually:
 
 1. **Unit / Integration Tests**: Tests using Playwright.
    ```bash
-   npm run test
+   npm run test:unit
    ```
 
 2. **Web Platform Tests (WPT)**: Runs the official WPT suite for `scrollParent`.

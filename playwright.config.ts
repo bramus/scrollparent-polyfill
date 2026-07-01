@@ -26,7 +26,7 @@ export default defineConfig({
   },
 
   webServer: {
-    command: 'npm run test:serve',
+    command: 'npm run test:unit:serve',
     port: 7357,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
