@@ -4,6 +4,13 @@ A lightweight JavaScript polyfill for `Element.scrollParent()`, modeled after th
 
 It utilizes `get-containing-block` to correctly resolve the scroll parent for absolutely and fixed-positioned elements, skipping static ancestor containers that do not clip them.
 
+This project is fully tested using the official [Web Platform Tests (WPT)](https://github.com/web-platform-tests/wpt).
+
+<!-- WPT_STATUS_START -->
+- PASS: 12 / 12
+- FAIL: 0 / 12
+<!-- WPT_STATUS_END -->
+
 ## Features
 
 - **Specification-Compliant Resolution**: Resolves standard scroll containers accurately by checking computed `overflow-x` and `overflow-y` styles (`auto`, `scroll`, `hidden`).
@@ -25,7 +32,9 @@ npm install scrollparent-polyfill
 
 ### 1. As a Polyfill
 
-Simply import the package to automatically install the method on `Element.prototype`:
+Simply import the package or load the IIFE bundle via CDN to automatically install the method on `Element.prototype`.
+
+#### Via Bundler (ESM)
 
 ```javascript
 import 'scrollparent-polyfill';
@@ -38,20 +47,7 @@ const scrollParent = element.scrollParent();
 console.log('Scroll parent is:', scrollParent);
 ```
 
-### 2. As a Standalone Utility
-
-If you prefer not to modify the global `Element.prototype`, you can import the helper function directly:
-
-```javascript
-import { getScrollParent } from 'scrollparent-polyfill';
-
-const element = document.querySelector('.my-child-element');
-const scrollParent = getScrollParent(element);
-
-console.log('Scroll parent is:', scrollParent);
-```
-
-### 3. Direct Browser Usage (IIFE)
+#### Direct Browser Usage (IIFE via CDN)
 
 For direct browser usage without a bundler, you can load the bundled IIFE version from a CDN (such as unpkg):
 
@@ -69,6 +65,19 @@ For direct browser usage without a bundler, you can load the bundled IIFE versio
 </script>
 ```
 
+### 2. As a Standalone Utility
+
+If you prefer not to modify the global `Element.prototype`, you can import the helper function directly:
+
+```javascript
+import { getScrollParent } from 'scrollparent-polyfill';
+
+const element = document.querySelector('.my-child-element');
+const scrollParent = getScrollParent(element);
+
+console.log('Scroll parent is:', scrollParent);
+```
+
 ## API
 
 ### `getScrollParent(node)`
@@ -82,15 +91,46 @@ For direct browser usage without a bundler, you can load the bundled IIFE versio
   - `document.scrollingElement` if no other scroll parent is found (or if overflow propagates to the viewport).
   - `undefined` if the element is invalid or not connected to the document.
 
-## Web Platform Tests (WPT)
+## Development
 
-To ensure high compliance with standard behaviors, this polyfill is tested against the official Web Platform Tests.
+### Installation
 
-<!-- WPT_STATUS_START -->
-- PASS: 12 / 12
-- FAIL: 0 / 12
-<!-- WPT_STATUS_END -->
+To install dependencies for development:
+
+```bash
+npm install
+```
+
+### Building
+
+To build the project (ESM, IIFE, and Types):
+
+```bash
+npm run build
+```
+
+### Testing
+
+The project has two types of tests:
+
+1. **Unit / Integration Tests**: Tests using Playwright.
+   ```bash
+   npm run test
+   ```
+
+2. **Web Platform Tests (WPT)**: Runs the official WPT suite for `scrollParent`.
+   ```bash
+   # Run WPT tests (requires Python and Firefox)
+   npm run test:wpt
+
+   # Run WPT tests locally for debugging
+   npm run test:wpt:local
+   ```
 
 ## License
 
 MIT
+
+## Disclaimer
+
+This project is AI-assisted using [Google Antigravity](https://antigravity.google/), based on the spec and WPT.
