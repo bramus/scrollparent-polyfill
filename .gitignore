@@ -2,3 +2,6 @@
 /node_modules
 /tests/playwright/results
 /playwright-report
+/tests/wpt/src
+/tests/wpt/report
+

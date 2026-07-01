@@ -13,6 +13,7 @@ It utilizes `get-containing-block` to correctly resolve the scroll parent for ab
 - **Flexible API**: Can be used as an imported standalone utility or called directly on DOM element prototypes.
 - **Fully Typed**: Written in TypeScript with standard types exported.
 - **ESM Support**: Built as an ES Module.
+- **WPT Compliant**: Tested against the Web Platform Tests for scrollParent.
 
 ## Installation
 
@@ -80,6 +81,15 @@ For direct browser usage without a bundler, you can load the bundled IIFE versio
   - The scroll parent element if found.
   - `document.scrollingElement` if no other scroll parent is found (or if overflow propagates to the viewport).
   - `undefined` if the element is invalid or not connected to the document.
+
+## Web Platform Tests (WPT)
+
+To ensure high compliance with standard behaviors, this polyfill is tested against the official Web Platform Tests.
+
+<!-- WPT_STATUS_START -->
+- PASS: 8 / 12
+- FAIL: 4 / 12
+<!-- WPT_STATUS_END -->
 
 ## License
 
