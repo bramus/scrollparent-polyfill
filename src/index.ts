@@ -106,8 +106,13 @@ export function getScrollParent(node: Element): Element | null | undefined {
     return null;
   }
 
+  // CSSWG Resolution: The scrollParent of root should be null; The scrollParent of body is null if the body is the document’s scrolling element.
+  // https://github.com/w3c/csswg-drafts/issues/12723
   if (node === node.ownerDocument.body) {
-    return null;
+    if (node === node.ownerDocument.scrollingElement) {
+      return null;
+    }
+    return node.ownerDocument.scrollingElement || null;
   }
 
   const style = getComputedStyle(node);

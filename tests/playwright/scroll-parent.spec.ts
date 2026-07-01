@@ -125,9 +125,10 @@ for (const target of targets) {
     test('Body element/Viewport scroll parent resolution', async ({ page }) => {
       const result = await page.evaluate(() => {
         const body = document.body;
+        const scrollingElement = document.scrollingElement;
         const result = body.scrollParent();
         return {
-          passed: result === null
+          passed: result === scrollingElement
         };
       });
       expect(result.passed).toBe(true);

@@ -10,7 +10,7 @@ OK	/css/cssom-view/scrollParent.html
 - PASS	hidden element is a scroll container.
 - PASS	scrollParent follows absolute positioned containing block chain.
 - PASS	scrollParent follows fixed positioned containing block chain.
-- FAIL	scrollParent of body is document scrolling element when body is not document scrolling element.
+- PASS	scrollParent of body is document scrolling element when body is not document scrolling element.
 - PASS	scrollParent of child in root viewport returns document scrolling element.
 - PASS	scrollParent of element fixed to root is null.
 - PASS	scrollParent of fixed element contained within root is document scrolling element.
