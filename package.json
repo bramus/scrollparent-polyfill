@@ -1,6 +1,6 @@
 {
   "name": "scrollparent-polyfill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A JavaScript polyfill for Element.scrollParent()",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
