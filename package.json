@@ -56,6 +56,6 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "get-containing-block": "^1.0.3"
+    "get-containing-block": "^1.0.4"
   }
 }

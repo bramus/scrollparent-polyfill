@@ -1,8 +1,8 @@
 OK	/css/cssom-view/scrollParent-quirks-mode.html
 - FAIL	scrollParent of body is null when body is document scrolling element
 OK	/css/cssom-view/scrollParent-shadow-tree.html
-- FAIL	scrollParent from inside closed shadow tree
-- FAIL	scrollParent from inside open shadow tree
+- PASS	scrollParent from inside closed shadow tree
+- PASS	scrollParent from inside open shadow tree
 - PASS	scrollParent skips intermediate closed shadow tree nodes
 - PASS	scrollParent skips intermediate open shadow tree nodes
 OK	/css/cssom-view/scrollParent.html
