@@ -21,7 +21,7 @@ for (const target of targets) {
     test.beforeEach(async ({ page }) => {
       page.on('console', msg => console.log(`BROWSER LOG: ${msg.text()}`));
 
-      await page.goto('/test/fixtures/verification.html');
+      await page.goto('/tests/playwright/fixtures/verification.html');
 
       // Inject getScrollParent by referencing its served URL
       await page.addScriptTag(target.scriptOptions);

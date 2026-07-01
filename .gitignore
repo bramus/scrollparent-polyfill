@@ -1,4 +1,4 @@
 /dist
 /node_modules
-/test-results
+/tests/playwright/results
 /playwright-report
