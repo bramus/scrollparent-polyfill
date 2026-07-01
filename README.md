@@ -87,8 +87,8 @@ For direct browser usage without a bundler, you can load the bundled IIFE versio
 To ensure high compliance with standard behaviors, this polyfill is tested against the official Web Platform Tests.
 
 <!-- WPT_STATUS_START -->
-- PASS: 8 / 12
-- FAIL: 4 / 12
+- PASS: 12 / 12
+- FAIL: 0 / 12
 <!-- WPT_STATUS_END -->
 
 ## License

@@ -110,10 +110,10 @@ for (const target of targets) {
       expect(result.passed).toBe(true);
     });
 
-    test('Fixed target falls back to scrollingElement outside transforms', async ({ page }) => {
+    test('Fixed target outside transforms returns null', async ({ page }) => {
       const result = await page.evaluate(() => {
         const target = document.getElementById('target-fixed-fallback')!;
-        const expected = document.scrollingElement;
+        const expected = null;
         const result = target.scrollParent();
         return {
           passed: result === expected
