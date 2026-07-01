@@ -4,11 +4,22 @@
   "description": "A JavaScript polyfill for Element.scrollParent()",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "unpkg": "dist/scrollparent-polyfill.iife.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "clean": "rm -rf ./dist",
+    "prebuild": "npm run clean",
+    "build": "npm run build:module && npm run build:iife",
+    "build:module": "tsc",
+    "build:iife": "esbuild src/index.ts --bundle --format=iife --outfile=dist/scrollparent-polyfill.iife.js",
     "type-check": "tsc --noEmit",
     "start": "serve",
     "pretest": "npm run build && playwright install --with-deps",
@@ -34,6 +45,7 @@
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.5.0",
+    "esbuild": "^0.28.1",
     "husky": "^9.1.7",
     "serve": "^14.2.6",
     "typescript": "^5.7.2"

@@ -50,6 +50,24 @@ const scrollParent = getScrollParent(element);
 console.log('Scroll parent is:', scrollParent);
 ```
 
+### 3. Direct Browser Usage (IIFE)
+
+For direct browser usage without a bundler, you can load the bundled IIFE version from a CDN (such as unpkg):
+
+```html
+<!-- Load the polyfill from a CDN -->
+<script src="https://unpkg.com/scrollparent-polyfill/dist/scrollparent-polyfill.iife.js"></script>
+
+<script>
+  const element = document.querySelector('.my-child-element');
+  
+  // The polyfill automatically installs the method on Element.prototype
+  const scrollParent = element.scrollParent();
+  
+  console.log('Scroll parent is:', scrollParent);
+</script>
+```
+
 ## API
 
 ### `getScrollParent(node)`
