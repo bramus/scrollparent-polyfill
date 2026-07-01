@@ -65,14 +65,14 @@ export function getScrollParent(node: Element): Element | null | undefined {
     return null;
   }
 
-  // 2. If element is the HTML body element, return the document's scrolling element.
-  if (document.body && node === document.body) {
-    return document.scrollingElement || null;
-  }
-
-  // 3. If element is the document's scrolling element or the document's root element, return null.
+  // 2. If element is the document's scrolling element or the document's root element, return null.
   if (node === document.scrollingElement || (document.documentElement && node === document.documentElement)) {
     return null;
+  }
+
+  // 3. If element is the HTML body element, return the document's scrolling element.
+  if (document.body && node === document.body) {
+    return document.scrollingElement || null;
   }
 
   // 4. Let container be the containing block of element.
