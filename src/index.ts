@@ -51,8 +51,41 @@ function isScrollContainer(element: Element): boolean {
   return true;
 }
 
+function isClosedShadowHidden(a: Node, b: Node): boolean {
+  const root = a.getRootNode();
+  if (!(root instanceof ShadowRoot)) {
+    return false;
+  }
+
+  // Check if root is a shadow-including inclusive ancestor of b.
+  let current: Node | null = b;
+  let isAncestor = false;
+  while (current) {
+    if (current === root) {
+      isAncestor = true;
+      break;
+    }
+    if (current instanceof ShadowRoot) {
+      current = current.host;
+    } else {
+      current = current.parentNode;
+    }
+  }
+
+  if (isAncestor) {
+    return false;
+  }
+
+  if (root.mode === 'closed') {
+    return true;
+  }
+
+  return isClosedShadowHidden(root.host, b);
+}
+
 /**
  * Finds the scroll parent of a given Element.
+ * https://drafts.csswg.org/cssom-view/#dom-htmlelement-scrollparent
  * @param node The element to find the scroll parent for.
  */
 export function getScrollParent(node: Element): Element | null | undefined {
@@ -60,47 +93,61 @@ export function getScrollParent(node: Element): Element | null | undefined {
     return undefined;
   }
 
-  // 1. If element does not have an associated box, return null.
+  // 1. If any of the following holds true, return null and terminate this algorithm:
+  //     - The element does not have an associated box.
+  //     - The element is the root element.
+  //     - The element is the body element.
+  //     - The element’s computed value of the position property is fixed and no ancestor establishes a fixed position containing block.
   if (hasNoAssociatedBox(node)) {
     return null;
   }
 
-  // 2. If element is the document's scrolling element or the document's root element, return null.
-  if (node === document.scrollingElement || (document.documentElement && node === document.documentElement)) {
+  if (node === node.ownerDocument.documentElement) {
     return null;
   }
 
-  // 3. If element is the HTML body element, return the document's scrolling element.
-  if (document.body && node === document.body) {
-    return document.scrollingElement || null;
+  if (node === node.ownerDocument.body) {
+    return null;
   }
 
-  // 4. Let container be the containing block of element.
-  let current: Element | null = node;
-  const res = getContainingBlock(current as HTMLElement);
-  let container: Element | null = res.container;
-
-  // 5. While container is not null:
-  while (container) {
-    // a. If container is a scroll container, return container.
-    if (isScrollContainer(container)) {
-      return container;
-    }
-    // b. If container is the HTML body element, return the document's scrolling element.
-    if (document.body && container === document.body) {
-      return document.scrollingElement || null;
-    }
-    // c. If container is the document's root element, return null.
-    if (document.documentElement && container === document.documentElement) {
+  const style = getComputedStyle(node);
+  if (style.position === 'fixed') {
+    const { container } = getContainingBlock(node as HTMLElement);
+    if (!container) {
       return null;
     }
-    // d. Set container to the containing block of container.
-    const nextRes = getContainingBlock(container as HTMLElement);
-    container = nextRes.container;
   }
 
-  // 6. Return null.
-  return null;
+  // 2. Let ancestor be the containing block of the element in the flat tree and repeat these substeps:
+  let ancestor: Element | null = getContainingBlock(node as HTMLElement).container;
+
+  while (true) {
+    // 2.1. If ancestor is the initial containing block, return the scrollingElement for the element’s document if it is not closed-shadow-hidden from the element, otherwise return null.
+    if (!ancestor) {
+      const scrollingElement = node.ownerDocument?.scrollingElement || null;
+      if (scrollingElement && !isClosedShadowHidden(scrollingElement, node)) {
+        return scrollingElement;
+      }
+      return null;
+    }
+
+    // 2.2. If ancestor is not closed-shadow-hidden from the element, and is a scroll container, terminate this algorithm and return ancestor.
+    if (!isClosedShadowHidden(ancestor, node) && isScrollContainer(ancestor)) {
+      return ancestor;
+    }
+
+    // 2.3. If the computed value of the position property of ancestor is fixed, and no ancestor establishes a fixed position containing block, terminate this algorithm and return null.
+    const ancestorStyle = getComputedStyle(ancestor);
+    if (ancestorStyle.position === 'fixed') {
+      const { container } = getContainingBlock(ancestor as HTMLElement);
+      if (!container) {
+        return null;
+      }
+    }
+
+    // 2.4. Let ancestor be the containing block of ancestor in the flat tree.
+    ancestor = getContainingBlock(ancestor as HTMLElement).container;
+  }
 }
 
 // Expose the polyfill on the Element prototype if we are in a browser environment.

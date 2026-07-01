@@ -7,8 +7,8 @@ It utilizes `get-containing-block` to correctly resolve the scroll parent for ab
 This project is fully tested using the official [Web Platform Tests (WPT)](https://github.com/web-platform-tests/wpt).
 
 <!-- WPT_STATUS_START -->
-- PASS: 17 / 17
-- FAIL: 0 / 17
+- PASS: 16 / 17
+- FAIL: 1 / 17
 <!-- WPT_STATUS_END -->
 
 ## Features
